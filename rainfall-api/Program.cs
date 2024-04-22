@@ -1,5 +1,6 @@
 using Autofac.Core;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.OpenApi.Models;
 using rainfall_api.Common;
 using rainfall_api.Middlewares;
 using rainfall_api.Services;
@@ -26,7 +27,7 @@ try
         .Add(new RouteTokenTransformerConvention(new SlugifyParameterTransformer()));
     });
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddEndpointsApiExplorer(); 
     builder.Services.AddSwaggerGen(options =>
     {
         options.SwaggerDoc("v1", new OpenApiInfo

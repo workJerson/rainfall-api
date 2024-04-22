@@ -1,9 +1,12 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration.UserSecrets;
 using Newtonsoft.Json;
+using rainfall_api.Common.Exceptions;
 using rainfall_api.Dtos;
+using rainfall_api.Dtos.RainfallApi;
 
 namespace rainfall_api.Services
 {
@@ -36,9 +39,10 @@ namespace rainfall_api.Services
 
             var uri = QueryHelpers.AddQueryString($"https://environment.data.gov.uk/flood-monitoring/id/stations/{request.StationId}/readings?_sorted", queryParameters!);
 
-            var result = await httpClient.GetAsync(uri, cancellationToken).Result.Content.ReadAsStringAsync();
+            var result = await httpClient.GetAsync(uri, cancellationToken).Result.Content.ReadAsStringAsync(cancellationToken);
+            var readings = JsonConvert.DeserializeObject<GetReadingsByStationIdDto>(result);
 
-            return JsonConvert.DeserializeObject<RainfallReadingResponseModel>(result);
+            return mapper.Map<RainfallReadingResponseModel>(readings);
         }
     }
 }
