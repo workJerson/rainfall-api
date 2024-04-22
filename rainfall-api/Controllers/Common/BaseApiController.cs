@@ -10,6 +10,6 @@ namespace rainfall_api.Controllers.Common
     {
         private ISender _mediator = null!;
 
-        protected ISender Mediator => _mediator ??= HttpContext.RequestServices.GetRequiredService<ISender>();
+        public ISender Mediator => _mediator ??= HttpContext.RequestServices.GetRequiredService<ISender>();
     }
 }
