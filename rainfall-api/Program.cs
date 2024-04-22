@@ -38,6 +38,8 @@ try
     builder.Services.AddSingleton<RequestLoggingMiddleware>();
     builder.Services.AddScoped<ResponseLoggingMiddleware>();
 
+    builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
     var app = builder.Build();
 
     // Configure the HTTP request pipeline.
