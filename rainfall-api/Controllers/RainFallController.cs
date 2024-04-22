@@ -20,7 +20,7 @@ namespace rainfall_api.Controllers
         /// <response code="404">No readings found for the specified stationId</response>
         /// <response code="500">Internal server error</response>
         [HttpGet("id/{stationId}/readings")]
-        [ProducesResponseType(typeof(RainfallReadingResponseModel), StatusCodes.Status200OK)]
+        [SwaggerResponse(StatusCodes.Status200OK, null, typeof(RainfallReadingResponseModel))]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status500InternalServerError)]
