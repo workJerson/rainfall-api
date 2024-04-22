@@ -18,11 +18,13 @@ namespace rainfall_api.Services
     {
         private readonly IHttpClientFactory httpClientFactory;
         private readonly HttpClient httpClient;
+        private readonly IMapper mapper;
 
-        public GetRainfallReadingsRequestHandler(IHttpClientFactory httpClientFactory)
+        public GetRainfallReadingsRequestHandler(IHttpClientFactory httpClientFactory, IMapper mapper)
         {
             this.httpClientFactory = httpClientFactory;
             httpClient = httpClientFactory.CreateClient("EnvironmentAgencyHttpClient");
+            this.mapper = mapper;
         }
 
         public async Task<RainfallReadingResponseModel> Handle(GetRainfallReadingsRequest request, CancellationToken cancellationToken)
