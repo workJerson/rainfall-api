@@ -2,6 +2,7 @@
 using rainfall_api.Controllers.Common;
 using rainfall_api.Dtos;
 using rainfall_api.Services;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace rainfall_api.Controllers
 {
