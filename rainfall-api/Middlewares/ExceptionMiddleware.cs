@@ -46,12 +46,16 @@ namespace rainfall_api.Middlewares
                             errorResult.Messages = e.ErrorMessages;
                         }
 
+                        if (e.Details is not null)
+                        {
+                            errorResult.Details = e.Details;
+                        }
+
                         break;
 
                     case KeyNotFoundException:
                         errorResult.StatusCode = (int)HttpStatusCode.NotFound;
                         break;
-
                     default:
                         errorResult.StatusCode = (int)HttpStatusCode.InternalServerError;
                         break;
