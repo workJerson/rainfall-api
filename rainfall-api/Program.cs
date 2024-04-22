@@ -27,7 +27,32 @@ try
     });
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen();
+    builder.Services.AddSwaggerGen(options =>
+    {
+        options.SwaggerDoc("v1", new OpenApiInfo
+        {
+            Version = "1.0",
+            Title = "Rainfall API",
+            Description = "An API which provides rainfall reading data",
+            Contact = new OpenApiContact
+            {
+                Name = "Sorted",
+                Url = new Uri("https://sorted.com")
+            },
+        });
+        options.AddServer(new OpenApiServer
+        {
+            Url = "https://localhost:7277",
+            Description = "Rainfall Api"
+        });
+
+        options.EnableAnnotations();
+
+        var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+        var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+        options.IncludeXmlComments(xmlPath);
+    });
+
     builder.Services.AddMediatR(cf => cf.RegisterServicesFromAssembly(typeof(Program).Assembly));
     builder.Services.AddHttpClient("EnvironmentAgencyHttpClient", c =>
     {
