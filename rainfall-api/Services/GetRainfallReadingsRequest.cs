@@ -7,6 +7,8 @@ using Newtonsoft.Json;
 using rainfall_api.Common.Exceptions;
 using rainfall_api.Dtos;
 using rainfall_api.Dtos.RainfallApi;
+using rainfall_api.Validators;
+using System.Net;
 
 namespace rainfall_api.Services
 {
@@ -19,19 +21,21 @@ namespace rainfall_api.Services
     }
     public class GetRainfallReadingsRequestHandler : IRequestHandler<GetRainfallReadingsRequest, RainfallReadingResponseModel>
     {
-        private readonly IHttpClientFactory httpClientFactory;
         private readonly HttpClient httpClient;
         private readonly IMapper mapper;
 
         public GetRainfallReadingsRequestHandler(IHttpClientFactory httpClientFactory, IMapper mapper)
         {
-            this.httpClientFactory = httpClientFactory;
             httpClient = httpClientFactory.CreateClient("EnvironmentAgencyHttpClient");
             this.mapper = mapper;
         }
 
         public async Task<RainfallReadingResponseModel> Handle(GetRainfallReadingsRequest request, CancellationToken cancellationToken)
         {
+            var validationResult = new GetRainfallReadingsValidator().Validate(request);
+            if (!(validationResult.IsValid))
+                throw new CustomException("Validation errors.", validationResult.Errors.Select(error => error.ErrorMessage).ToList(), HttpStatusCode.BadRequest);
+
             var queryParameters = new Dictionary<string, string>()
             {
                 { "_limit", request.Count.ToString()! } 
