@@ -34,7 +34,7 @@ namespace rainfall_api.Services
         {
             var validationResult = new GetRainfallReadingsValidator().Validate(request);
             if (!(validationResult.IsValid))
-                throw new CustomException("Validation errors.", validationResult.Errors.Select(error => error.ErrorMessage).ToList(), HttpStatusCode.BadRequest);
+                throw new ValidationException("Validation errors.", validationResult.Errors.Select(error => new ErrorDetailModel { Message = error.ErrorMessage, PropertyName = error.PropertyName }).ToList());
 
             var queryParameters = new Dictionary<string, string>()
             {
